@@ -20,7 +20,7 @@ function Authenticate() {
         dataType: 'json',
         success: function (data) {
             alert('Data: ' + data);
-            document.cookie = "jwt=" + data.token;
+            document.cookie = "access_token=" + data.token;
         },
         error: function (request, error) {
             alert("Request: " + JSON.stringify(request));
