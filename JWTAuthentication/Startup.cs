@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JWTAuthentication.Helpers;
 using JWTAuthentication.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,7 +38,7 @@ namespace JWTAuthentication
             });
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -70,9 +71,9 @@ namespace JWTAuthentication
 
             services.AddAuthentication(x =>
             {
-
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                x.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(x =>
             {
@@ -83,12 +84,14 @@ namespace JWTAuthentication
 
             }).AddCookie(x =>
             {
+                
                 x.Cookie.Name = "access_token";
                 x.TicketDataFormat = new CustomJwtDataFormat(SecurityAlgorithms.HmacSha256, tokenValidationParameters);
             });
 
 
             services.AddScoped<IUserService, UserService>();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,6 +111,7 @@ namespace JWTAuthentication
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+           // app.UseMiddleware<TokenProviderMiddleware>(Options.Create(Options))
 
             app.UseMvc(routes =>
             {
