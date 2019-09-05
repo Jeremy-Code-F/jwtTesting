@@ -71,9 +71,11 @@ namespace JWTAuthentication
 
             services.AddAuthentication(x =>
             {
+
                 x.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 x.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
                 //x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 //x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
@@ -86,9 +88,13 @@ namespace JWTAuthentication
 
             }).AddCookie(x =>
             {
-                
+                x.Cookie.HttpOnly = true;
                 x.Cookie.Name = "access_token";
                 x.TicketDataFormat = new CustomJwtDataFormat(SecurityAlgorithms.HmacSha256, tokenValidationParameters);
+            });
+            services.AddAuthorization(x =>
+            {
+                x.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
             });
 
 
