@@ -27,3 +27,18 @@ function Authenticate() {
         }
     });
 }
+
+
+function GetAllUsers() {
+    $.ajax({
+
+        url: '/api/user/GetAll',
+        type: 'GET',
+        success: function (data) {
+            alert('Data: ' + data);
+        },
+        error: function (request, error) {
+            alert("Request: " + JSON.stringify(request));
+        }
+    });
+}

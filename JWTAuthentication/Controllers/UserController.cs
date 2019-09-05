@@ -33,7 +33,6 @@ namespace JWTAuthentication.Controllers
             return Ok(user);
         }
 
-        [AllowAnonymous]
         [HttpGet("test")]
         public IActionResult GetTest()
         {
@@ -41,7 +40,7 @@ namespace JWTAuthentication.Controllers
         }
 
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
             var users = _userService.GetAll();

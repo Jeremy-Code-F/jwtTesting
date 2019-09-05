@@ -74,6 +74,8 @@ namespace JWTAuthentication
                 x.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 x.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                //x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                //x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(x =>
             {
